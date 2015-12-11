@@ -6,8 +6,11 @@ $APPLICATION->SetPageProperty("keywords", "грузоперевозки, тра�
 $APPLICATION->SetTitle("Перевози грузы дешевле");
 $APPLICATION->AddHeadScript("/js/calc.js");
 
-$cities = new CCity();
-$arResult["ITEMS"] = $cities->getListMain(array("UF_NAME" => "asc"), array("!UF_NAME" => false));
+$cities = new CHLReference(6);
+$arResult["ITEMS"] = $cities->getList(array("UF_NAME_SHORT" => "asc"), array("UF_ACTIVE" => 1));
+// $arResult["ITEMS"] = $cities->getList(array("UF_NAME_FULL" => "asc"), array("!UF_NAME" => false));
+// $cities = new CCity();
+// $arResult["ITEMS"] = $cities->getListMain(array("UF_NAME" => "asc"), array("!UF_NAME" => false));
 
 ?>
 <div id="calc-form" class="form-inline clearfix">
@@ -15,7 +18,7 @@ $arResult["ITEMS"] = $cities->getListMain(array("UF_NAME" => "asc"), array("!UF_
     <div class="form-group form-group-lg">
       <div class="input-group">
         <div class="input-group-addon">Из</div>  
-        <input type="text" class="form-control city" id="input-from" placeholder="Москва">
+        <input type="text" class="form-control city" id="input-from" data-id="121" placeholder="Москва">
       </div>
       <div class="cities-wrapper">
       </div>
@@ -24,7 +27,7 @@ $arResult["ITEMS"] = $cities->getListMain(array("UF_NAME" => "asc"), array("!UF_
     <div class="form-group form-group-lg">
       <div class="input-group">
         <div class="input-group-addon">В</div>  
-        <input type="email" class="form-control city" id="input-to" placeholder="Екатеринбург">
+        <input type="text" class="form-control city" id="input-to" data-id="26" placeholder="Екатеринбург">
       </div>  
       <div class="cities-wrapper">
       </div>
@@ -36,13 +39,13 @@ $arResult["ITEMS"] = $cities->getListMain(array("UF_NAME" => "asc"), array("!UF_
       <div class="form-group form-group-lg">
         <div class="input-group">
           <div class="input-group-addon">Вес, кг</div>  
-          <input type="text" class="form-control" id="input-from" placeholder="200">
+          <input type="text" class="form-control" id="input-weight" value="200" placeholder="200">
         </div>
       </div>
       <div class="form-group form-group-lg">
         <div class="input-group">
           <div class="input-group-addon">Объем, м3</div>  
-          <input type="email" class="form-control" id="input-volume" placeholder="1">
+          <input type="text" class="form-control" id="input-volume" value="1" placeholder="1">
         </div>  
       </div>
     </div>
@@ -56,10 +59,12 @@ $arResult["ITEMS"] = $cities->getListMain(array("UF_NAME" => "asc"), array("!UF_
 <div class="helper hidden">
   <ul class="cities list-unstyled">
     <?foreach ($arResult["ITEMS"] as $item) :?>
-      <li 
-        data-id="<?=$item["ID"]?>"
-        data-title="<?=strtolower($item["UF_NAME"])?>"
-      ><?=$item["UF_NAME"]?></li>
+      <li
+        data-title="<?=strtolower($item["UF_NAME_SHORT"])?>"
+      ><span
+          data-id="<?=$item["ID"]?>"
+        ><?=$item["UF_NAME_SHORT"]?></span>
+      </li>
     <?endforeach;?>
   </ul>
 </div>

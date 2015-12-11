@@ -1,14 +1,15 @@
 <?if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die();?>
+<?CAkop::pr_var($arResult, 'arResult');?>
 <div class="admin-cities" data-path="<?=$this->__component->__path?>">
 	<?if (is_array($arResult["ITEMS"]) && count($arResult["ITEMS"])) :?>
 		<div class="parent col-md-2">
 			<select id="cities-main" class="cities" size="30" multiple="multiple">
 			  <?foreach ($arResult["ITEMS"] as $item) :?>
 			  	<option 
-			  		value="<?=$item["UF_NAME"]?>"
+			  		value="<?=$item["UF_NAME_SHORT"]?>"
 			      data-id="<?=$item["ID"]?>"
 			    >
-			    	<?=$item["UF_NAME"]?>
+			    	<?=$item["UF_NAME_SHORT"]?>
 			  	</option>
 			  <?endforeach;?>
 			</select>

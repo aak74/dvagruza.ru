@@ -1,24 +1,60 @@
 var calc = {
+	cityFrom: false,
+	cityTo: false,
+	weight: false,
+	volume: false,
+
 	loadCities: function() {
 		console.log('calc.loadCities');
 	},
 
 	/* Ищет возможные варианты */
 	search: function() {
-		var cityFrom = $("#input-from").data("id");
-		var cityTo = $("#input-to").data("id");
-		console.log('calc.search', cityFrom, cityTo);
+		calc.cityFrom = $("#input-from").data("id");
+		calc.cityTo = $("#input-to").data("id");
+		calc.weight = $("#input-weight").val();
+		calc.volume = $("#input-volume").val();
+		console.log('calc.search', calc.cityFrom, calc.cityTo);
 
-    $.post("/ajax/getCompsInCities.php", {"from": cityFrom, "to": cityTo})
-        .done(function(response) {
-	        $(".log").html(response).show();
-	        compsInCities = JSON.parse(response);
-          console.log("compsInCities", compsInCities);
-      	})
-        .fail(function() {
-          console.log("getTCsInCities.php fail");
-        });
+	    $.post("/ajax/getCompsInCities.php", {"from": calc.cityFrom, "to": calc.cityTo})
+	        .done(function(response) {
+		        $(".log").html(response).show();
+		        var compsInCities = JSON.parse(response);
+	          	console.log("compsInCities", compsInCities);
+	          	// Для каждой из компаний запускаем отдельный расчет
+		        for (var i = 0; i < compsInCities.length; i++) {
+		        	calc.calc(compsInCities[i]);
+		        }
+	      	})
+	        .fail(function() {
+	          console.log("getCompsInCities.php fail");
+	        });
+	}, 
 
+	/* Отправляем запрос на расчет по компании */
+	calc: function(company) {
+		console.log('calc.calc', calc.cityFrom, calc.cityTo);
+
+	    $.post("/ajax/calc.php", {
+	    		"from": calc.cityFrom, 
+	    		"to": calc.cityTo, 
+	    		"company": company,
+	    		"weight": calc.weight,
+	    		"volume": calc.volume
+	    	})
+	        .done(function(response) {
+		        // $(".log").append("<p>" + response + "</p>").show();
+		        if ( response !== "" ) {
+			        var data = JSON.parse(response);
+			        console.log("data", data);
+
+		        }
+		        $(".log").append("<p>" + response + "</p>").show();
+	          	console.log("calc", response);
+	      	})
+	        .fail(function() {
+	          console.log("calc.php fail");
+	        });
 	}, 
 
 	setCity: function (e) {
@@ -47,7 +83,7 @@ var calc = {
 		$(this).closest(".form-group").find(".cities-wrapper").append($ul);
 	}
 
-}
+};
 
 $(document).ready(function() {
   $("#search").on("click", calc.search);

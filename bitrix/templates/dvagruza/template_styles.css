@@ -68,12 +68,15 @@ ul.cities {
   color: #2b3e50;
   font-size: 19px;
   line-height: 1.42857;
-  padding: 12px 24px;
   transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
   width: 100%;
   z-index: 10;
   height: 400px;
   overflow: auto;
+}
+
+ul.cities > li > span {
+  padding: 12px 24px;
 }
 
 ul.cities.active {
@@ -90,4 +93,9 @@ ul.cities > li {
 
 ul.cities > li.active {
   display: block;
+}
+
+ul.cities > li:hover {
+  background-color: #2b3e50;
+  color: #ebebeb;
 }
