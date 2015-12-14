@@ -10,9 +10,9 @@ switch ($company) {
 		$calc = new CPecom();
 		break;
 	case 2:
-		$calc = new CKit();
+		$calc = new CTkkit();
 		break;
-	case 3:
+	case 30:
 		$calc = new CDellin();
 		break;
 	default:

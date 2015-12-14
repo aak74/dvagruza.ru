@@ -26,11 +26,17 @@ class CHLReference {
 		return $result;
 	}
 
-	function getList($order = array(), $filter = array()) {
+	function getList( $order = array(), $filter = array(), $select = array("*") ) {
+		// Обязательно добавляем ID к выводу. В противном случае будет выведен только один элемент.
+		if ( !empty($select) && !isset($select["ID"]) ) {
+			$select[] = "ID";
+		}
+
 		$entityDataClass = $this->entity->getDataClass();
 		$arParams = array(
 			'order' => $order,
-			'filter' => $filter
+			'filter' => $filter,
+			'select' => $select
 		);
 		$res = $entityDataClass::getList($arParams);
 

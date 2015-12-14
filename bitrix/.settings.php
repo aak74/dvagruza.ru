@@ -60,7 +60,7 @@ return array (
       array (
         'settings' => 
         array (
-         // 'file' => 'error123.log',
+         'file' => 'bitrx/modules/error123.log',
           'log_size' => 100000,
         ),
       ),

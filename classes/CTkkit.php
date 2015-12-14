@@ -10,33 +10,59 @@ class CTkkit extends CCalc{
 	// }
 	
 	public function calc($params) {
+		/* http://tk-kit.ru/API.1/?f=price_order
+		WEIGHT=30
+		VOLUME=0.6
+		SLAND=RU
+		SZONE=0000008610 Отправка из - Транспортная зона (см. описание функции get_city_list поле TZONEID)
+		SCODE=860001000000 Отправка из - Код населённого пункта (см. описание функции get_city_list поле ID)
+		RLAND=RU
+		RZONE=0000008910
+		RCODE=890000700000
+		PRICE=
+		WAERS=RUB
+		*/
 		if ($params && is_array($params)) {
-			$city = new CCity();
-			$from = $city->getItem(array("ID" => $params["from"]));
-			$to = $city->getItem(array("ID" => $params["to"]));
+			// Получаем данные о параметрах городов отправления и прибытия
+			$city = new CCityComp();
+			$from = $city->getItem( array("UF_CITY_ID" => $params["from"], "UF_COMP_ID" => self::COMPANY_ID) );
+			$to = $city->getItem( array("UF_CITY_ID" => $params["to"], "UF_COMP_ID" => self::COMPANY_ID) );
 
-			 
-
-			$p = array(
-				"derivalPoint" => $from["UF_XML_ID"], // код КЛАДР пункта отправки  (обязательное поле)
-				"arrivalPoint" => $to["UF_XML_ID"], // код КЛАДР пункта прибытия (обязательный параметр)
-				"sizedVolume" =>  $params["volume"], // общий объём груза в кубических метрах (обязательный параметр)
-				"sizedWeight" =>  $params["weight"] // общий вес груза в килограммах (обязательный параметр)
+			$p = array_merge(
+				array(
+					// "f" => "price_order",
+					"VOLUME" => $params["volume"],
+					"WEIGHT" => $params["weight"],
+					"PRICE" => 10000,
+					"WAERS" => "RUB"
+				),
+				$this->_getParams4Calc($from["UF_EXTRA_DATA"], "S"),
+				$this->_getParams4Calc($to["UF_EXTRA_DATA"], "R")
 			);
 			// CAkop::pr_var($p, 'p');
+			// return;
+
+			// Очистим память перед запросом
+			unset($city);
+			unset($from);
+			unset($to);
+			unset($params);
 
 			/* Запрос к серверу Деловых линий для расчета цены.
 			 * Возвращает довольно много данных. Для начала возьмем только цену и срок доставки.
 			 */
-			$res = $this->_call('v1/public/calculator.json', $p);
+			$res = $this->_call("?f=price_order", $p);
 			// CAkop::pr_var($res, 'res');
-			if ( is_array($res) ) {
+
+			// Если не ошибка и ответ читаемый, то соберем ответ с нужными данными
+			if ( is_array($res) && !isset($res["error"]) ) {
+				// Можно получить больше данных. Для этого необходимо запросить функции класса CTerminal
 				$result = array(
-					"price" => $res["price"],
-					"time" => $res["time"]["value"],
-					"from" => $res["derival"]["terminals"],
-					"to" => $res["arrival"]["terminals"],
-					"air" => $res["air"],
+					"price" => $res["PRICE"]["TOTAL"],
+					"time" => $res["DAYS"],
+					// "from" => $res["derival"]["terminals"],
+					// "to" => $res["arrival"]["terminals"],
+					// "air" => $res["air"],
 				);
 			} else {
 				$result = false;
@@ -47,20 +73,41 @@ class CTkkit extends CCalc{
 		return $result;
 	}
 	
-	/** Обновляем города по базе Деловых линий, как наиболее продвинутых в поане API */
+	// Обновление данных о терминалах ТК
 	public function updateTerminals() {
 		$list = $this->_getTerminals();
-		CAkop::pr_var($list, '$list');
+		// CAkop::pr_var($list, '$list');
 // return;
 		$city = new CCity();
+		$cityComp = new CCityComp();
 		$terminal = new CTerminal();
 
 		// в массиве сначала города, а внутри них терминалы
-		foreach ($list as $cityItem) {
+		foreach ($list as $cityKey => $cityItem) {
 			$name = $cityItem[0]["ORT01"];
 			// ищем город
 			$cItem = $city->getItem( array("UF_NAME_SHORT" => $name) );
 			// $cityId = $cItem["ID"];
+
+			/* Для каждого города надо сохранить значения, которые понадобятся для расчета стоимости перевозки */
+			$filter = array(
+				"UF_CITY_ID" => $cItem["ID"],
+				"UF_COMP_ID" => self::COMPANY_ID,
+			);
+
+			$params = array_merge(
+				$filter,
+				array(
+					"UF_EXTRA_DATA" => serialize(array(
+						"CODE" => $cityKey,
+						"ZONE" => $cityItem[0]["TRANSPZONE"],
+						"LAND" => $cityItem[0]["LAND1"],
+					))
+				)
+			);
+
+			$cityComp->updateEx($filter, $params);
+
 			foreach ($cityItem as $terminalItem) {
 				// добавляем терминал
 				$filter = array(
@@ -146,11 +193,64 @@ class CTkkit extends CCalc{
 */                    
 		// return $this->_call( "", array("f" => "get_rp") );
 	}
+
+/*	
+	Стандартную обработку убираю, потому что некоторые функции принимают только GET запросы
 	protected function _call($url, $params = array()) {
 	// private function _call($url, $params = array()) {
 		CAkop::pr_var($params, 'CKIT params');
 
 		return parent::_call(self::API_BASE_URL . $url, $params);
+		// return $this->_call(self::API_BASE_URL . $url, $params);
 	}
+*/
+
+	// Из сериализованного массива возвращает массив для запроса стоимости перевозки
+	private function _getParams4Calc($params, $add) {
+		$params = unserialize($params);
+		foreach ($params as $key => $value) {
+			$result[$add . $key] = $value;
+		}
+		return $result;
+	}
+
+	protected function _call($url, $params = array()) {
+		// CAkop::pr_var($params, 'params');
+		// $str = "";
+
+		/* Доформировываем URL переданными параметрами. Некоторые функции принимают только GET запросы, 
+		 * поэтому использовать POST запросы не представляется возможным
+		 */
+		if ( is_array($params) ) {
+			foreach ($params as $key => $value) {
+				$url .= "&" . $key . "=" . $value;
+			}
+		}
+
+		$options = array(
+			CURLOPT_RETURNTRANSFER => TRUE,
+			// CURLOPT_POST => TRUE,
+			CURLOPT_SSL_VERIFYPEER => FALSE,
+			CURLOPT_SSL_VERIFYHOST => 0,
+			CURLOPT_ENCODING =>   'gzip',
+			CURLOPT_URL => self::API_BASE_URL . $url,
+			// CURLOPT_POSTFIELDS => json_encode($params),
+			CURLOPT_HTTPHEADER => array(
+				'Content-Type: application/json; charset=utf-8',
+			)
+		);
+
+		// CAkop::pr_var($options, 'options');
+		// CAkop::pr_var($params, 'params');
+		$ch = curl_init();
+		curl_setopt_array($ch, $options);
+		$result = curl_exec($ch);
+		if (curl_errno($ch)) {
+			throw new CCalcException(curl_error($ch));
+		}
+		curl_close($ch);
+		return json_decode($result, true);
+	}
+
 }
 ?>

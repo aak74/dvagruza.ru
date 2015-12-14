@@ -60,7 +60,7 @@ var calc = {
 	setCity: function (e) {
 		console.log('calc.setCity', e, this, e.target.value);
 		var $fg = $(this).closest(".form-group");
-		$fg.find(".city").data("id", e.target.dataset.id).val(e.target.innerHTML);
+		$fg.find(".city").data("id", e.target.dataset.id).val(e.target.dataset.title);
 		$(".cities").removeClass("active");
 		// $fg.find(".cities-wrapper").append($ul);
 		
