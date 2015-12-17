@@ -25,7 +25,8 @@ class CDellin extends CCalc{
 				"derivalPoint" => $from["UF_KLADR"], // код КЛАДР пункта отправки  (обязательное поле)
 				"arrivalPoint" => $to["UF_KLADR"], // код КЛАДР пункта прибытия (обязательный параметр)
 				"sizedVolume" =>  $params["volume"], // общий объём груза в кубических метрах (обязательный параметр)
-				"sizedWeight" =>  $params["weight"] // общий вес груза в килограммах (обязательный параметр)
+				"sizedWeight" =>  $params["weight"], // общий вес груза в килограммах (обязательный параметр)
+				"quantity" => 100 // для того, чтобы не считалось для одного места, В противном случае может вылезти негабарит
 			);
 			// CAkop::pr_var($p, 'p');
 			// return;
@@ -36,10 +37,10 @@ class CDellin extends CCalc{
 			// CAkop::pr_var($res, 'res');
 			if ( is_array($res) ) {
 				$result = array(
-					"price" => $res["price"],
+					"price" => number_format($res["price"], 2, '.', ''),
 					"time" => $res["time"]["value"],
-					"from" => $res["derival"]["terminals"],
-					"to" => $res["arrival"]["terminals"],
+					// "from" => $res["derival"]["terminals"], // Пока не возвращаем список терминалов
+					// "to" => $res["arrival"]["terminals"], // Пока не возвращаем список терминалов
 					"air" => $res["air"],
 				);
 			} else {

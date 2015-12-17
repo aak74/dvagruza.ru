@@ -21,6 +21,13 @@ CModule::AddAutoloadClasses('',
 );
 
 AddEventHandler('main', 'OnBuildGlobalMenu', 'CustomMenuElements');
+AddEventHandler("main", "OnEpilog", "setTitle");
+
+function setTitle() {
+    global $APPLICATION;
+    $APPLICATION->SetPageProperty('title', "Два груза | " . $APPLICATION->GetTitle());
+}
+
 function CustomMenuElements(&$aGlobalMenu, &$aModuleMenu){
   $aModuleMenu[] = array(
     "parent_menu" => "global_menu_services",
@@ -33,4 +40,32 @@ function CustomMenuElements(&$aGlobalMenu, &$aModuleMenu){
     "page_icon" => "",
   );
 }
+
+spl_autoload_register(function ($class) {
+    include $_SERVER["DOCUMENT_ROOT"] . "/classes/" . $class . ".php";
+});
+
+
+AddEventHandler("api.feedback", "OnBeforeEmailSend", "OnBeforeEmailSendHandler");
+
+function OnBeforeEmailSendHandler(&$event_name, &$site_id, &$arFields, &$message_id) {
+    
+    CModule::IncludeModule('iblock'); 
+
+        $el = new CIBlockElement;
+        $elem_id = $el->Add(array(
+            "IBLOCK_ID" => 6,
+            "NAME" => $arFields["AUTHOR_NAME"],
+            "DETAIL_TEXT" => $arFields["AUTHOR_MESSAGE"],
+            "PROPERTY_VALUES" => array(
+                "NAME" => $arFields["AUTHOR_NAME"],
+                "EMAIL" => $arFields["AUTHOR_EMAIL"],
+                "PHONE" => $arFields["AUTHOR_PERSONAL_MOBILE"]
+            ),
+        ));
+
+    return true;
+}
+
+
 ?>

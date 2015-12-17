@@ -1,18 +1,18 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
-$company = CAkop::getRequest("company", true);
+$companyId = CAkop::getRequest("companyId", true);
 $from = CAkop::getRequest("from", true);
 $to = CAkop::getRequest("to", true);
-CAkop::pr_var($_REQUEST);
+// CAkop::pr_var($_REQUEST);
 
-switch ($company) {
+switch ($companyId) {
 	case 1:
 		$calc = new CPecom();
 		break;
 	case 2:
 		$calc = new CTkkit();
 		break;
-	case 30:
+	case 3:
 		$calc = new CDellin();
 		break;
 	default:
@@ -20,18 +20,34 @@ switch ($company) {
 		break;
 }
 if ($calc) {
-	$result = array(
-		"status" => "ok",
-		"result" => $calc->calc(
-			array(
-				"from" => $from, 
-				"to" => $to, 
-				"weight" => $weight, 
-				"volume" => $volume, 
-			)
-		),
-		"msg" => ""
-	);
+	$res = $calc->calc( array(
+		"from" => $from, 
+		"to" => $to, 
+		"weight" => $weight, 
+		"volume" => $volume, 
+	) );
+	if ( $res ) {
+		// Добавим к выдаче переданные в запросе параметры
+		$res["companyId"] = $companyId;
+		$res["from"] = $from;
+		$res["to"] = $to;
+		if ( $res["time"] == null) {
+			$res["time"] = "...";
+		}
+		$result = array(
+			"status" => "ok",
+			"result" => $res,
+			"msg" => ""
+		);
+	} else {
+		$result = array(
+			"status" => "error",
+			"result" => false,
+			"msg" => "Ошибка при расчете"
+		);
+		// TODO: записать данные об ошибке в БД
+
+	}
 } else {
 	$result = array(
 		"status" => "error",

@@ -9,7 +9,8 @@
 		>
 			<span
 				data-id="<?=$item["ID"]?>"
-				data-title="<?=$item["UF_NAME_SHORT"]?>"
+				data-name-lower="<?=strtolower( $item["UF_NAME_SHORT"] )?>"
+				data-name="<?=$item["UF_NAME_SHORT"]?>"
 			><?=$item["UF_NAME_SHORT"]?></span>
 	  	</li>
 	<?endforeach;?>

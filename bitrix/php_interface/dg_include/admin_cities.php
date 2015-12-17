@@ -13,7 +13,7 @@ CJSCore::Init(array("jquery"));
 <div class="cities">
 <?
 $APPLICATION->IncludeComponent(
-	"akop:admin.cities",
+	"akop:city.admin",
 	"",
 	Array(),
 	false

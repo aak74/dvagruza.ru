@@ -1,7 +1,9 @@
 var city = {
+	id: false,
 	path: "",
 	parentId: false,
 	terminals: false,
+	terminalId: false,
 
 	add: function () {
 		console.log("add");
@@ -45,23 +47,34 @@ var city = {
 		console.log("showTerminals", city.terminals);
 		var str = "";
 		for (var i = 0; i < city.terminals.length; i++) {
-			str += "<option "
-				+ "data-id='" + city.terminals[i].ID + "'"
-				+ "data-name='" + city.terminals[i].NAME + "'"
+			str += "<option"
+				+ " data-id='" + city.terminals[i].ID + "'"
+				+ " data-name='" + city.terminals[i].NAME + "'"
 				+ ">" 
 				+ city.terminals[i].COMPANY_NAME + " - " 
 				+ city.terminals[i].NAME 
 				+ "</option>";
 		};
+		console.log("city.id", city.id);
+		if (city.id == 0) {
+			$("#get-city-from-all").show();
+		} else {
+			$("#get-city-from-all").hide();
+		}
+
 		$("#terminals-in-city").html(str);
 	},
 
 	_getTerminals: function (e) {
 		console.log("_getTerminals", e);
-	    $.post(city.path + "/getTerminals.php", {"id" : e.target.dataset.id})
+		city.id = e.target.dataset.id;
+	    $.post(city.path + "/getTerminals.php", {"id" : city.id})
 	        .done(function(response) {
 	            console.log("getTerminals.php done", response);
-	            city.terminals = JSON.parse(response);
+	            city.terminals = ( ( response == "null")
+	            	? []
+	            	: JSON.parse(response)
+            	);
 	            city.showTerminals();
 	        })
 	        .fail(function() {
@@ -72,27 +85,76 @@ var city = {
 
 	_getCityFromAll: function () {
 		var $terminal = $("#terminals-in-city option:selected");
-		var $city = $("#cities-main option:selected");
-		console.log("_getCityFromAll", $city, $city.data(), $terminal, $terminal.data());
-/*
-	    $.post(city.path + "/getCityFromAll.php", {"id" : e.target.dataset.id})
+		// var $city = $("#cities-main option:selected");
+		// console.log("_getCityFromAll", $city, $city.data(), $terminal, $terminal.data());
+		city.terminalId = $terminal.data("id");
+
+	    $.post(city.path + "/getCityFromAll.php", {"name" : $terminal.data("name")})
 	        .done(function(response) {
 	            console.log("getCityFromAll.php done", response);
-	            city.terminals = JSON.parse(response);
-	            city.showTerminals();
+            	$("#log").html(response);
+	            // var cities = $.makeArray( response );
+	            // var cities = $.makeArray( JSON.parse(response) );
+	            var cities = JSON.parse(response);
+				console.log("cities", cities, cities.length);
+	            if (cities.length > 0) {
+	            	var str = "<ul>";
+		            for (var i = 0; i < cities.length; i++) {
+	            		str += "<li class='city-from-all'"
+	            			+ " data-id='" + cities[i].ID
+	            			+ "'>" + cities[i].UF_NAME_FULL + "</li>";
+		            }
+	            	str += "</ul>";
+	            	$("#log").html(str);
+	            	$("#log li.city-from-all").click(city.addCityFromAll);
+	            }
+	            // city.showTerminals();	
+
 	        })
 	        .fail(function() {
 	            console.log("getCityFromAll.php fail");
 	        });
-*/	        
+	        
+	},
+
+	addCityFromAll: function (e) {
+		console.log("addFromAll", e, e.target.dataset.id, city.terminalId);
+		var cityId = e.target.dataset.id;
+
+	    $.post(city.path + "/addCityFromAll.php", {"id": cityId, "terminal_id": city.terminalId})
+	        .done(function(response) {
+	   //          console.log("getCityFromAll.php done", response);
+    //         	$("#log").html(response);
+	   //          // var cities = $.makeArray( response );
+	   //          // var cities = $.makeArray( JSON.parse(response) );
+	   //          var cities = JSON.parse(response);
+				// console.log("cities", cities, cities.length);
+	   //          if (cities.length > 0) {
+	   //          	var str = "<ul>";
+		  //           for (var i = 0; i < cities.length; i++) {
+	   //          		str += "<li class='city-from-all'"
+	   //          			+ " data-id='" + cities[i].ID
+	   //          			+ "'>" + cities[i].UF_NAME_FULL + "</li>";
+		  //           }
+	   //          	str += "</ul>";
+	   //          	$("#log").html(str);
+	   //          	$("#log li.city-from-all").click(city.addFromAll);
+	   //          }
+	   //          // city.showTerminals();	
+
+	        })
+	        .fail(function() {
+	            console.log("getCityFromAll.php fail");
+	        });
+
 	},
 
 	_getCityByName: function (e) {
-		console.log("_getTerminals", e);
-		city.get
+		console.log("_getCityByName", e);
+		// city.get
 	}
 
-}
+};
 
 $(document).ready(function() {
 	city.path = $(".admin-cities").data("path");

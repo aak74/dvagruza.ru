@@ -27,6 +27,8 @@ class CHLReference {
 	}
 
 	function getList( $order = array(), $filter = array(), $select = array("*") ) {
+		// обрабатываем переданный false в качестве фильтра
+		$filter = ( ( empty($filter) ) ? array() : $filter );
 		// Обязательно добавляем ID к выводу. В противном случае будет выведен только один элемент.
 		if ( !empty($select) && !isset($select["ID"]) ) {
 			$select[] = "ID";
@@ -43,6 +45,11 @@ class CHLReference {
 		while ($el = $res->Fetch()) {
 			$result[$el["ID"]] = $el;
 		}
+
+		// CAkop::pr_var(array(
+		// 	"filter" => $filter,
+		// 	"result" => $result
+		// ));
 		return $result;
 	}
 

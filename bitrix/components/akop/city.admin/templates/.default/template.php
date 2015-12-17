@@ -9,7 +9,7 @@
 			  <?foreach ($arResult["ITEMS"] as $item) :?>
 			  	<option 
 			  		value="<?=$item["UF_NAME_SHORT"]?>"
-			      data-id="<?=$item["ID"]?>"
+			      	data-id="<?=$item["ID"]?>"
 			    >
 			    	<?=$item["UF_NAME_SHORT"]?>
 			  	</option>
@@ -21,7 +21,7 @@
 		<a id="set-main-city" href="#" class="btn btn-success btn-block">Главный город</a>
 		<a id="add-city" href="#" class="btn btn-default btn-block">Добавить &gt;&gt;</a>
 		<a id="remove-city" href="#" class="btn btn-default btn-block">&lt;&lt; Удалить</a>
-		<a id="get-city-from-all" href="#" class="btn btn-default btn-block">Найти город</a>
+		<a id="get-city-from-all" href="#" class="btn btn-default btn-block" style="display: none;">Найти город</a>
 	</div>
 	<div class="terminals col-md-2">
 			<select id="terminals-in-city" class="cities" size="30" multiple="multiple">

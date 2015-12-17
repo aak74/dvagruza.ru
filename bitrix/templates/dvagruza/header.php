@@ -12,7 +12,7 @@ IncludeTemplateLangFile(__FILE__);
 	<title><?$APPLICATION->ShowTitle()?></title>
 	<link rel="shortcut icon" type="image/x-icon" href="/images/favicon2.png" />
 	<link rel="stylesheet" href="<?=SITE_TEMPLATE_PATH?>/bootstrap/css/bootstrap.min.css">
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 	
 <?
 /*	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3/js/bootstrap.min.js"></script>*/
@@ -22,5 +22,5 @@ $APPLICATION->ShowHead();
 <body>
 	<div id="panel"><?$APPLICATION->ShowPanel();?></div>
 	<div id="workarea-inner" class="container">
-	<h1 class="title"><?$APPLICATION->ShowTitle();?></h1> 
+	<h1 class="title"><?$APPLICATION->ShowTitle(false);?></h1> 
 

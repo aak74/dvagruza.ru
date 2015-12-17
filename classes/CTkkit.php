@@ -58,7 +58,7 @@ class CTkkit extends CCalc{
 			if ( is_array($res) && !isset($res["error"]) ) {
 				// Можно получить больше данных. Для этого необходимо запросить функции класса CTerminal
 				$result = array(
-					"price" => $res["PRICE"]["TOTAL"],
+					"price" => number_format($res["PRICE"]["TOTAL"], 2, '.', ''),
 					"time" => $res["DAYS"],
 					// "from" => $res["derival"]["terminals"],
 					// "to" => $res["arrival"]["terminals"],
