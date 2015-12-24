@@ -24,8 +24,10 @@ AddEventHandler('main', 'OnBuildGlobalMenu', 'CustomMenuElements');
 AddEventHandler("main", "OnEpilog", "setTitle");
 
 function setTitle() {
-    global $APPLICATION;
-    $APPLICATION->SetPageProperty('title', "Два груза | " . $APPLICATION->GetTitle());
+    if (SITE_ID == "dg") {
+        global $APPLICATION;
+        $APPLICATION->SetPageProperty('title', "Два груза | " . $APPLICATION->GetTitle());
+    }
 }
 
 function CustomMenuElements(&$aGlobalMenu, &$aModuleMenu){
