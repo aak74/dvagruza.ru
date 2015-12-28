@@ -1,5 +1,11 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
+
+function str2float ($str) {
+	return str_replace( " ", "", str_replace( ",", ".", $str ) );
+}
+
+
 $companyId = CAkop::getRequest("companyId", true);
 $from = CAkop::getRequest("from", true);
 $to = CAkop::getRequest("to", true);
@@ -23,8 +29,8 @@ if ($calc) {
 	$res = $calc->calc( array(
 		"from" => $from, 
 		"to" => $to, 
-		"weight" => $weight, 
-		"volume" => $volume, 
+		"weight" => str2float($weight), 
+		"volume" => str2float($volume), 
 	) );
 	if ( $res ) {
 		// Добавим к выдаче переданные в запросе параметры
