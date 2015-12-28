@@ -108,3 +108,20 @@ ul.cities > li:hover {
 	padding: 12px;
 	margin: 12px;
 }
+
+.callout {
+	border-left: 5px solid #4e5d6c;
+	font-size: 18.75px;
+	margin: 0 0 21px;
+	padding: 10.5px 21px;
+}
+
+.bottom-menu {
+	margin-top: 32px;
+}
+
+.bottom-menu .nav > li > strong {
+  display: block;
+  padding: 10px 15px;
+  position: relative;
+}

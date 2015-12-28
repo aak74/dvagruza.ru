@@ -45,6 +45,7 @@ class CPecom extends CCalc{
 		          	// "from" => $res["derival"]["terminals"],
 		          	// "to" => $res["arrival"]["terminals"],
 		          	"air" => $res["transfers"][1]["costTotal"],
+					"response" => $res
 		        );
 	        } else {
 		        $result = false;

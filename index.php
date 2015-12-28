@@ -83,6 +83,13 @@ foreach ($_REQUEST as $key => $value) {
 
 <div class="result clearfix"></div>
 <div class="log"></div>
+<?
+$APPLICATION->IncludeFile(
+	"/include/disclaimer.php",
+	false
+);
+?>
+
 <div class="helper hidden">
 <?
 $APPLICATION->IncludeComponent(

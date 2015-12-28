@@ -27,15 +27,20 @@ var calc = {
 			+ "'>URL для быстрого расчета</a>");
 
 
-	    $.post("/ajax/getCompsInCities.php", {"from": calc.cityFrom, "to": calc.cityTo})
+	    $.post("/ajax/getCompsInCities.php", {
+	    	"from": calc.cityFrom, 
+	    	"to": calc.cityTo,
+	    	"weight": calc.weight,
+	    	"volume": calc.volume,
+	    })
 	        .done(function(response) {
 		        // $(".log").html(response).show();
-		        var compsInCities = JSON.parse(response);
-	          	console.log("compsInCities", compsInCities);
+		        var data = JSON.parse(response);
+	          	console.log("compsInCities data", data);
 	          	// Для каждой из компаний запускаем отдельный расчет
-		        for (var i = 0; i < compsInCities.length; i++) {
+		        for (var i = 0; i < data.comps.length; i++) {
 
-		        	calc.calc(compsInCities[i]);
+		        	calc.calc(data.comps[i], data.query_id);
 		        }
 	      	})
 	        .fail(function() {
@@ -44,7 +49,7 @@ var calc = {
 	}, 
 
 	/* Отправляем запрос на расчет по отдельной компании */
-	calc: function(companyId) {
+	calc: function(companyId, queryId) {
 		console.log('calc.calc', calc.cityFrom, calc.cityTo);
 
 		calc.replaceCompanyPanel(companyId, "<h3>" + calc.getCompanyAnchor(companyId) + "</h3><p>Отправлен запрос на расчет</p>");
@@ -54,7 +59,8 @@ var calc = {
 	    		"to": calc.cityTo, 
 	    		"companyId": companyId,
 	    		"weight": calc.weight,
-	    		"volume": calc.volume
+	    		"volume": calc.volume,
+	    		"queryId": queryId
 	    	})
 	        .done(function(response) {
 		        // $(".log").append("<p>" + response + "</p>").show();

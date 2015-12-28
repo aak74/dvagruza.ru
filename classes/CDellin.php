@@ -42,6 +42,7 @@ class CDellin extends CCalc{
 					// "from" => $res["derival"]["terminals"], // Пока не возвращаем список терминалов
 					// "to" => $res["arrival"]["terminals"], // Пока не возвращаем список терминалов
 					"air" => $res["air"],
+					"response" => $res
 				);
 			} else {
 				$result = false;

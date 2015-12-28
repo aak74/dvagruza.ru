@@ -55,6 +55,19 @@ if ($calc) {
 		"msg" => "Wrong company id=($company)"
 	);
 }
+
+$answer = new CAnswer();
+$answer->add(array(
+	"UF_QUERY" => CAkop::getRequest("queryId", true),
+	"UF_COMP_ID" => $companyId,
+	"UF_SUM" => $result["result"]["price"],
+	"UF_TERM" => $result["result"]["time"],
+	"UF_STATUS" => $result["status"],
+	"UF_RESPONSE" => serialize( $result["result"]["response"] ),
+));
+
+unset($result["response"]);
+
 echo json_encode($result, JSON_HEX_AMP );
 
 ?>
