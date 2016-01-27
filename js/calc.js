@@ -5,27 +5,32 @@ var calc = {
 	volume: false,
 	companies: [],
 
-	/* Ищет компании, через которые можно осуществить перевозку. После нахождения для каздой компании запускается отдельный поиск */
+	/* Ищет компании, через которые можно осуществить перевозку. После нахождения для каждой компании запускается отдельный поиск */
 	search: function() {
 		$(".result").html("");
+		// $(".result-table").html("");
 		calc.cityFrom = $("#input-from").data("id");
 		calc.cityTo = $("#input-to").data("id");
 		calc.weight = $("#input-weight").val();
 		calc.volume = $("#input-volume").val();
-		console.log('calc.search', calc.cityFrom, calc.cityTo);
-		calc.clearLog();
-		calc.add2Log( "<h3>Расчет перевозки</h3>" );
-		calc.add2Log( "Из: " + $("#input-from").val() );
-		calc.add2Log( "В: " + $("#input-to").val() );
-		calc.add2Log( "Вес: " + calc.weight );
-		calc.add2Log( "Объем: " + calc.volume );
-		calc.add2Log( "<a href='//dvagruza.ru/?"
+		// console.log('calc.search', calc.cityFrom, calc.cityTo);
+		// calc.clearLog();
+		var str = "<h2>Расчет перевозки</h2>" + "<br />"
+			+ "Из: " + $("#input-from").val() + "<br />"
+			+ "В: " + $("#input-to").val() + "<br />"
+			+ "Вес: " + calc.weight + "<br />"
+			+ "Объем: " + calc.volume + "<br />"
+			+ "<a href='//dvagruza.ru/?"
 			+ "from=" + calc.cityFrom
 			+ "&to=" + calc.cityTo
 			+ "&weight=" + calc.weight
 			+ "&volume=" + calc.volume
-			+ "'>URL для быстрого расчета</a>");
+			+ "'>URL для быстрого расчета</a>" + "<br />";
 
+		str += '<table class="table table-hover"><tr><th>Компания</th><th>Цена</th><th>Срок</th></tr></table>';
+		$(".result-table").html(str);
+
+		$("html,body").animate({scrollTop: $(".result-table").offset().top}, 1000);
 
 	    $.post("/ajax/getCompsInCities.php", {
 	    	"from": calc.cityFrom, 
@@ -36,7 +41,7 @@ var calc = {
 	        .done(function(response) {
 		        // $(".log").html(response).show();
 		        var data = JSON.parse(response);
-	          	console.log("compsInCities data", data);
+	          	// console.log("compsInCities data", data);
 	          	// Для каждой из компаний запускаем отдельный расчет
 		        for (var i = 0; i < data.comps.length; i++) {
 
@@ -50,9 +55,10 @@ var calc = {
 
 	/* Отправляем запрос на расчет по отдельной компании */
 	calc: function(companyId, queryId) {
-		console.log('calc.calc', calc.cityFrom, calc.cityTo);
+		// console.log('calc.calc', calc.cityFrom, calc.cityTo);
 
-		calc.replaceCompanyPanel(companyId, "<h3>" + calc.getCompanyAnchor(companyId) + "</h3><p>Отправлен запрос на расчет</p>");
+		// calc.replaceCompanyPanel(companyId, "<h3>" + calc.getCompanyAnchor(companyId) + "</h3><p>Отправлен запрос на расчет</p>");
+		calc.add2Table( {"companyId": companyId} );
 		
 	    $.post("/ajax/calc.php", {
 	    		"from": calc.cityFrom, 
@@ -69,18 +75,29 @@ var calc = {
 			        var str = "<h3>" + calc.getCompanyAnchor(companyId) + "</h3>"
 			        	+ "<p class='price'>Стоимость, руб.: " + data.result.price + "</p>"
 			        	+ "<p class='time'>Срок доставки, дней: " + data.result.time + "</p>";
-					calc.replaceCompanyPanel(data.result.companyId, str);
-					calc.add2Log( str + "<br/>");
-			        console.log("data", data, companyId);
+					// calc.replaceCompanyPanel(data.result.companyId, str);
+					calc.add2Table( data.result );
+					calc.add2Log( str + "<br/>" );
+			        // console.log("data", data, companyId);
 
 		        }
 		        // $(".log").append("<p>" + response + "</p>").show();
-	          	console.log("calc", response);
+	          	// console.log("calc", response);
 	      	})
 	        .fail(function() {
 	        	console.log("calc.php fail");
 	        });
 	}, 
+
+
+	/* Подставляет данные по грузам и запускает поиск вариантов */
+	searchVariant: function() {
+		var data = $(this).data();
+		$("#input-weight").val(data.weight);
+		$("#input-volume").val(data.volume);
+		calc.search();
+		
+	},
 
 	// Возвращает тег "a" для компании
 	getCompanyAnchor: function(companyId) {
@@ -89,10 +106,10 @@ var calc = {
 
 	// Замена панельки 
 	replaceCompanyPanel: function(companyId, msg) {
-		console.log("replaceCompanyPanel", companyId, msg);
+		// console.log("replaceCompanyPanel", companyId, msg);
 		var clName = "comp" + companyId;
 		var $company = $(".result div." + clName);
-		console.log("replaceCompanyPanel", $company);
+		// console.log("replaceCompanyPanel", $company);
 		if ( $company.length === 0 ) {
 			var str = '<div class="' + clName + '" style="display: none;">' + msg + '</div>';
 			$(".result").append(str);
@@ -152,8 +169,29 @@ var calc = {
 	},
 
 	// Добавляет запись в лог
+	add2Table: function (data) {
+		// $(".log").append("<p>" + msg + "</p>");
+		console.log("add2Table", data, data.from );
+		var str = "<tr id='comp" + data.companyId + "'>";
+		str +=	"<td>" + calc.companies[data.companyId].name + "</td>";
+		if (data.from === undefined) {
+			str +=	"<td colspan='2'>Запрос отправлен</td>";
+		} else {
+			str += "<td>" + data.price + "</td>"
+				+ "<td>" + data.time + "</td>";
+		}
+		str += "</tr>";
+		
+		if (data.from !== undefined) {
+			$(".result-table table tr#comp" + data.companyId).remove();
+		}
+		$(".result-table table").append(str);
+
+	},
+
+	// Добавляет запись в лог
 	add2Log: function (msg) {
-		$(".log").append("<p>" + msg + "</p>");
+		// $(".log").append("<p>" + msg + "</p>");
 	},
 	
 	// Очищает лог
@@ -190,6 +228,7 @@ var calc = {
 
 $(document).ready(function() {
 	$("#search").on("click", calc.search);
+	$(".search-variant").on("click", calc.searchVariant);
 	$("#switch").on("click", calc.switch);
 	$(".from-to .form-control").on("keyup", calc.showCities);
 	$("ul.cities").on("click", calc.setCity);

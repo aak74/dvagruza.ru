@@ -66,13 +66,14 @@ $answer = new CAnswer();
 $answer->add(array(
 	"UF_QUERY" => CAkop::getRequest("queryId", true),
 	"UF_COMP_ID" => $companyId,
+	"UF_TIME" => date("d.m.Y H:i:s"),
 	"UF_SUM" => $result["result"]["price"],
 	"UF_TERM" => $result["result"]["time"],
 	"UF_STATUS" => $result["status"],
 	"UF_RESPONSE" => serialize( $result["result"]["response"] ),
 ));
 
-unset($result["response"]);
+unset($result["result"]["response"]);
 
 echo json_encode($result, JSON_HEX_AMP );
 

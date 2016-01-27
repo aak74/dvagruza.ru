@@ -1,7 +1,8 @@
+table.table,
 body {
 	/*color: #ebebeb;*/
 	/*font-size: 130%;*/
-	font-size: 20px;
+	font-size: 20px !important;
 	line-height: 1.42857;
 }
 
@@ -118,10 +119,27 @@ ul.cities > li:hover {
 
 .bottom-menu {
 	margin-top: 32px;
+	border-top: 2px solid #aaa;
 }
 
 .bottom-menu .nav > li > strong {
   display: block;
   padding: 10px 15px;
   position: relative;
+}
+
+.variants {
+	margin-bottom: 10px;
+}
+
+.variants button {
+	margin-bottom: 6px;
+}
+
+table.table td {
+	border-color: inherit !important;
+}
+
+.result-table {
+	margin-top: 16px;
 }

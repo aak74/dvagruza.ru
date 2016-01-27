@@ -34,6 +34,7 @@
 /bitrix/web.config
 /bitrix/wizards/
 /upload/
+/test/
 
 
 *.avi

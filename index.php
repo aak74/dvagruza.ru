@@ -15,10 +15,37 @@ $def = array(
 foreach ($_REQUEST as $key => $value) {
 	$def[$key] = CAkop::getRequest($key, true);
 }
+$variants = array(
+	array(
+		"name" => "Минимальный груз",
+		"weight" => "1",
+		"volume" => "0.01"
+	),
+	array(
+	 	"name" => "Ноутбук",
+		"weight" => "5",
+		"volume" => "0.031"
+	),
+	array(
+	 	"name" => "Принтер",
+		"weight" => "11",
+		"volume" => "0.039"
+	),
+	array(
+		"name" => "Стиральная машина",
+		"weight" => "60",
+		"volume" => "0.331"
+	),
+	array(
+	 	"name" => "Холодильник",
+		"weight" => "90",
+		"volume" => "1.28"
+	),
+);
 
 ?>
 <div class="main clearfix">
-	<div id="calc-form" class="form-inline argo col-xs-6">
+	<div id="calc-form" class="form-inline cargo col-md-6">
 		<div class="from-to">
 			<div>
 				<div class="form-group form-group-lg">
@@ -46,8 +73,20 @@ foreach ($_REQUEST as $key => $value) {
 			</div>
 		</div>
 
-		<div class="calc">
-			<div class="cargo col-xs-6">
+		<div class="params">
+			<div class="cargo col-xs-621">
+				<div class="variants col-xs-61">
+					<h4>Готовые варианты</h4>
+					<?foreach ($variants as $value): ?>
+						<button 
+							class="search-variant btn btn-danger btn-sm"
+							data-weight="<?=$value["weight"]?>"
+							data-volume="<?=$value["volume"]?>"
+						>
+							<?=$value["name"]?>
+						</button>
+					<?endforeach;?>
+				</div>
 				<div class="form-group form-group-lg">
 					<div class="input-group">
 						<div class="input-group-addon">Вес, кг</div>  
@@ -61,13 +100,14 @@ foreach ($_REQUEST as $key => $value) {
 					</div>  
 				</div>
 			</div>
-
+		</div>
+		<div class="calc">
 			<div class="search col-xs-6">
 				<button id="search" class="btn btn-primary btn-lg">Найти лучшие<br/>предложения <span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
 			</div>
 		</div>
 	</div>
-	<div class="companies col-xs-6">
+	<div class="companies col-md-6 hidden-sm hidden-xs ">
 		<h3>Расчет по данным компаний:</h3>
 		<?
 		$APPLICATION->IncludeComponent(
@@ -82,6 +122,7 @@ foreach ($_REQUEST as $key => $value) {
 
 
 <div class="result clearfix"></div>
+<div class="result-table clearfix"></div>
 <div class="log"></div>
 <?
 $APPLICATION->IncludeFile(

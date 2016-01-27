@@ -2,17 +2,22 @@
 
 CModule::includeModule('highloadblock');
 
-use Bitrix\Highloadblock as HL;
+use \Bitrix\Main\Data\cache;
+use \Bitrix\Highloadblock as HL;
 
 /**
  * @author Андрей Копылов aakopylov@mail.ru
  */
 class CHLReference {
 	private $entity;
+	protected $arCache = array();
 
   public function __construct($hlblock) {
 		$hldata = HL\HighloadBlockTable::getById($hlblock)->fetch();
 		$this->entity = HL\HighloadBlockTable::compileEntity($hldata);
+		$this->arCache = array(
+			"cachePeriod" => 7200
+		);
 		return $this;
   }
 	
@@ -81,7 +86,55 @@ class CHLReference {
 	  return $id;
 	}
 
+	/* Создаем Instance кэша при установленном периоде кэширования и наличии в параметрах пути и ид кэша */
+	protected function _createCacheInstance($id) {
+		$this->arCache[$id]["exists"] = false;
+		if ( ( $this->arCache["cachePeriod"] > 0 ) 
+				&& isset( $this->arCache[$id] )
+				&& is_array( $this->arCache[$id] ) 
+				&& isset( $this->arCache[$id]["id"] )
+				&& isset( $this->arCache[$id]["path"] )
+				) {
 
+			$cache = cache::createInstance();
+			$this->arCache[$id]["exists"] = $cache->initCache( 
+				$this->arCache["cachePeriod"], 
+				$this->arCache[$id]["id"], 
+				$this->arCache[$id]["path"] 
+			);
+
+			$result = $cache;
+		} else {
+			$result = false;
+		}
+		return $result;
+	}
+
+	/* сохраняем данные в кэш при установленном периоде кэширования */
+	protected function _saveCache($cache, $vars) {
+		// CAkop::pr_var($this->arCache, 'this->arCache');
+		if ( ( $this->arCache["cachePeriod"] > 0 ) && $cache && $vars ) {
+			$cache->startDataCache();
+			$cache->endDataCache($vars);
+			$result = true;
+		} else {
+			$result = false;
+		}
+		return $result;
+	}
+
+	protected function _isCacheExists($id) {
+		if ( isset( $this->arCache[$id] )
+			&& is_array( $this->arCache[$id] ) 
+			&& isset( $this->arCache[$id]["exists"] )
+			) {
+			$result = $this->arCache[$id]["exists"];
+		} else {
+			$result = false;
+		}
+
+		return $result;
+	}
 
 }
 

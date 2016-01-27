@@ -13,9 +13,9 @@ IncludeTemplateLangFile(__FILE__);
 	<link rel="shortcut icon" type="image/x-icon" href="/images/favicon2.png" />
 	<link rel="stylesheet" href="<?=SITE_TEMPLATE_PATH?>/bootstrap/css/bootstrap.min.css">
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 	
 <?
-/*	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3/js/bootstrap.min.js"></script>*/
 $APPLICATION->ShowHead();
 ?>
 </head>

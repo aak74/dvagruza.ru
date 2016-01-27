@@ -9,7 +9,8 @@ $queryId = $query->add(array(
 	"UF_FROM" => $from,
 	"UF_TO" => $to,
 	"UF_WEIGHT" => $weight,
-	"UF_VOLUME" => $volume
+	"UF_VOLUME" => $volume,
+	"UF_TIME" => date("d.m.Y H:i:s")
 ));
 
 

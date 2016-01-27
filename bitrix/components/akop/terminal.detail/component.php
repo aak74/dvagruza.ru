@@ -11,7 +11,13 @@ $arResult["COMPANY"] = $company->getItem(
 	array("ID" => $arResult["DETAIL"]["UF_COMP_ID"])
 );
 
+$city = new CCity();
+$arResult["CITY"] = $city->getItem( 
+	array("ID" => $arResult["DETAIL"]["UF_CITY_ID"])
+);
 
+
+unset($city);
 unset($company);
 unset($terminal);
 $this->IncludeComponentTemplate();

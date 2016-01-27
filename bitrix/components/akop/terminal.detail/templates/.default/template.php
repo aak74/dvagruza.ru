@@ -28,4 +28,7 @@ $APPLICATION->SetTitle($arResult["COMPANY"]["UF_NAME"] . " - ". $arResult["DETAI
 <a href="/" class="btn btn-lg btn-primary">
 	<span class="glyphicon glyphicon-rub" aria-hidden="true"></span> Перейти к расчету перевозки
 </a>
+<a href="/city/<?=$arResult["CITY"]["ID"]?>/" class="btn btn-lg btn-info">
+	Терминалы других компаний в городе <?=$arResult["CITY"]["UF_NAME_FULL"]?>
+</a>
 </div>

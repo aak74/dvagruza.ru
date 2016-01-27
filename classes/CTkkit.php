@@ -243,9 +243,19 @@ class CTkkit extends CCalc{
 
 		// CAkop::pr_var($options, 'options');
 		// CAkop::pr_var($params, 'params');
+        $log = new CLog("/upload/log/tk-kit/");
+        $log->add2Log(
+            "query:"  . PHP_EOL
+            . $url
+        );
 		$ch = curl_init();
 		curl_setopt_array($ch, $options);
 		$result = curl_exec($ch);
+        $log->add2Log(
+            "result:"  . PHP_EOL
+            . $result
+        );
+
 		if (curl_errno($ch)) {
 			throw new CCalcException(curl_error($ch));
 		}
