@@ -21,6 +21,7 @@ $APPLICATION->ShowHead();
 </head>
 <body>
 	<div id="panel"><?$APPLICATION->ShowPanel();?></div>
-	<div id="workarea-inner" class="container">
-	<h1 class="title"><?$APPLICATION->ShowTitle(false);?></h1> 
-
+	<div id="workarea-inner">
+		<div class="container">
+			<h1 class="title"><?$APPLICATION->ShowTitle(false);?></h1> 
+		</div>

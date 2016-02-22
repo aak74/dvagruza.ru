@@ -6,15 +6,16 @@ $APPLICATION->SetPageProperty("keywords", "грузоперевозки, тра�
 // $APPLICATION->SetTitle("Найди лучшую цену на перевозку сборного груза");
 // CAkop::pr_var($_REQUEST, '$_REQUEST');
 ?>
-<?
-$APPLICATION->IncludeComponent(
-	"akop:company.detail", 
-	".default", 
-	array(
-		"XML_ID" => CAkop::getRequest("xml_id", true)
-	)
-);
-?>
-
+<div class="container">
+	<?
+	$APPLICATION->IncludeComponent(
+		"akop:company.detail", 
+		".default", 
+		array(
+			"XML_ID" => CAkop::getRequest("xml_id", true)
+		)
+	);
+	?>
+</div>
 
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

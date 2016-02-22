@@ -5,9 +5,7 @@
 $APPLICATION->SetTitle($arResult["DETAIL"]["UF_NAME"]);
 // CAkop::pr_var($arResult["DETAIL"], 'arResult');
 ?>
-<a href="/" class="btn btn-lg btn-primary">
-	<span class="glyphicon glyphicon-rub" aria-hidden="true"></span> Перейти к расчету перевозки
-</a>
+<?include($_SERVER["DOCUMENT_ROOT"]."/include/goToCalc.php");?>
 <p>Перейти на <a href="//<?=$arResult["DETAIL"]["UF_SITE"]?>" target="_blank" rel="nofollow">сайт компании</a></p>
 <h2>Города с терминалами (<?=count($arResult["ITEMS"])?>):</h2>
 </div>

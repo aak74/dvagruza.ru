@@ -12,6 +12,12 @@ $arUrlRewrite = array(
 		"ID" => "",
 		"PATH" => "/terminal/index.php",
 	),
+	array(
+		"CONDITION" => "#^/city/(.*)/#",
+		"RULE" => "id=$1",
+		"ID" => "",
+		"PATH" => "/city/index.php",
+	),
 );
 
 ?>

@@ -20,6 +20,14 @@ h1.title {
 	/*font-size: 16px !important;*/
 }
 
+.service-description {
+	background-color: #6D8BA8;
+}
+
+.result-table {
+	background-color: #0E2134
+}
+
 .from-to {
 	margin-bottom: 40px;
 }
@@ -34,7 +42,7 @@ h1.title {
 
 .cities,
 .from-to .form-control {
-	width: 360px !important;
+	width: 320px !important;
 }
 
 .from-to .input-group-addon,
@@ -118,14 +126,21 @@ ul.cities > li:hover {
 }
 
 .bottom-menu {
-	margin-top: 32px;
-	border-top: 2px solid #aaa;
+	/*margin-top: 32px;*/
+	background-color: #27323C;
+}
+.bottom-menu div{
+	/*border-top: 2px solid #aaa;*/
 }
 
 .bottom-menu .nav > li > strong {
   display: block;
   padding: 10px 15px;
   position: relative;
+}
+
+.go-to-calc {
+	margin-bottom: 20px;
 }
 
 .variants {
@@ -143,3 +158,35 @@ table.table td {
 .result-table {
 	margin-top: 16px;
 }
+
+
+
+
+@media all and (max-width: 600px) {
+	h1.title {
+		font-size: 26px;
+		margin-left: 0;
+	}
+
+	.from-to .form-group {
+		margin: 10px 0 10px 0;
+	}
+
+	.cargo {
+		padding-left: 0;
+	}
+
+	.cities,
+	.from-to .form-control {
+		width: 245px !important;
+	}
+
+	.from-to .input-group-addon {
+		min-width: 52px !important;		
+	}
+
+	.container {
+		padding: 0 !important;
+	}
+}
+

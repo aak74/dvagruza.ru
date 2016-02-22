@@ -5,7 +5,7 @@ $APPLICATION->SetTitle("В городе " . $arResult["DETAIL"]["UF_NAME_FULL"] 
 ?>
 
 <h2></h2>
-<div class="terminals panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+<div class="terminals panel-group container" id="accordion" role="tablist" aria-multiselectable="true">
 	<?foreach ($arResult["ITEMS"] as $item) :?>
 		<div class="panel panel-default">
 			<div class="panel-heading" role="tab" id="heading<?=$item["COMPANY_XML_ID"]?>">
@@ -49,8 +49,4 @@ $APPLICATION->SetTitle("В городе " . $arResult["DETAIL"]["UF_NAME_FULL"] 
 	  	</div>
 	<?endforeach;?>
 </div>
-<div>
-	<a href="/" class="btn btn-lg btn-primary">
-		<span class="glyphicon glyphicon-rub" aria-hidden="true"></span> Перейти к расчету перевозки
-	</a>
-</div>
+<?include($_SERVER["DOCUMENT_ROOT"]."/include/goToCalc.php");?>

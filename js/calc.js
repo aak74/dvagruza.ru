@@ -28,7 +28,7 @@ var calc = {
 			+ "'>URL для быстрого расчета</a>" + "<br />";
 
 		str += '<table class="table table-hover"><tr><th>Компания</th><th>Цена</th><th>Срок</th></tr></table>';
-		$(".result-table").html(str);
+		$(".result-table .container").html(str);
 
 		$("html,body").animate({scrollTop: $(".result-table").offset().top}, 1000);
 

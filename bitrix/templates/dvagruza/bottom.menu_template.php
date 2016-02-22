@@ -4,7 +4,7 @@ foreach ($arMENU as $key => $value) {
      // $sMenu .= '<a href="'.$LINK.'" title="'.$TEXT.'">'.$TEXT.'</a>';
 }
 
-$sMenu .= '<div class="bottom-menu"><ul class="nav nav-pills">';
+$sMenu .= '<div class="bottom-menu"><div class="container"><ul class="nav nav-pills">';
 $CurDir = $APPLICATION->GetCurDir();
 for ( $i=0; $i < count($arMENU); $i++ ) {
     $sMenu .= '<li role="presentation">';
@@ -25,6 +25,6 @@ for ( $i=0; $i < count($arMENU); $i++ ) {
     $sMenu .= $TdAddText;
     $sMenu .= '</li>';
 }
-$sMenu .= '</ul></div>';
+$sMenu .= '</ul></div></div>';
 ?>
 

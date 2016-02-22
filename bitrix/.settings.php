@@ -75,9 +75,9 @@ return array (
       array (
         'className' => '\\Bitrix\\Main\\DB\\MysqlConnection',
         'host' => 'localhost',
-        'database' => 'dbdg',
+        'database' => 'db_dg',
         'login' => 'root',
-        'password' => '',
+        'password' => 'woodae23',
         'options' => 2,
       ),
     ),

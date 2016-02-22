@@ -2,7 +2,7 @@
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Контакты");
 ?>
-<div class="contacts clearfix">
+<div class="contacts container clearfix">
 
 	<p>ВНИМАНИЕ! Мы не занимаемся грузоперевозками. Мы предоставляем информацию о выгодных ценах на перевозку грузов.</p>
 
