@@ -1,9 +1,7 @@
-var company = {
-
-
+var city = {
 	clearSearch: function () {
 		$('#search-city-name').val("");
-		company.searchCity();
+		city.searchCity();
 
 	},
 
@@ -23,6 +21,6 @@ var company = {
 
 $(document).ready(function() {
 	document.getElementById('search-city-name').focus()
-	$('#search-city-name').keyup(company.searchCity);
-	$('#clear-search').click(company.clearSearch);
+	$('#search-city-name').keyup(city.searchCity);
+	$('#clear-search').click(city.clearSearch);
 });

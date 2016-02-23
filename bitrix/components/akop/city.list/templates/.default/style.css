@@ -1,45 +1,26 @@
-.panel-group .panel + .panel {
-    margin-top: 0px !important;
-}
-
-.panel {
-	box-shadow: 0 0 0 #000;
-}
-
-#clear-search {
-	cursor: pointer;
-}
-
-.terminals.panel-group {
-	display: block;
-	position: relative;
-	background-color: #485563;
-	overflow: hidden;
-}
-
 @media all and (min-width: 1050px) {
-	.panel {
+	.city {
 	    float: left;
 	    width: 25%;
 	}
 }
 
 @media all and (max-width: 1049px) {
-	.panel {
+	.city {
 	    float: left;
 	    width: 33%;
 	}
 }
 
 @media all and (max-width: 800px) {
-	.panel {
+	.city {
 	    float: left;
 	    width: 50%;
 	}
 }
 
 @media all and (max-width: 500px) {
-	.panel {
+	.city {
 	    float: left;
 	    width: 100%;
 	}

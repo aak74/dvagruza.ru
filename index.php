@@ -113,7 +113,7 @@ $variants = array(
 			<?
 			$APPLICATION->IncludeComponent(
 				"akop:company.list", 
-				".default", 
+				"", 
 				array()
 			);
 			?>
@@ -145,7 +145,7 @@ $variants = array(
 <?
 $APPLICATION->IncludeComponent(
 	"akop:city.list", 
-	".default", 
+	"index", 
 	array()
 );
 ?>

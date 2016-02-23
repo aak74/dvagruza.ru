@@ -5,16 +5,30 @@ $APPLICATION->SetPageProperty("keywords", "грузоперевозки, тра�
 // $APPLICATION->SetPageProperty("title", "Перевози грузы дешевле всех");
 // $APPLICATION->SetTitle("Найди лучшую цену на перевозку сборного груза");
 // CAkop::pr_var($_REQUEST, '$_REQUEST');
+$id = CAkop::getRequest("id", true);
+
+
+
 ?>
-<?
-$APPLICATION->IncludeComponent(
-	"akop:city.detail", 
-	".default", 
-	array(
-		"ID" => CAkop::getRequest("id", true)
-	)
-);
+<div class="container">
+	<?
+	if ( $id ) {
+		$APPLICATION->IncludeComponent(
+			"akop:city.detail", 
+			"", 
+			array(
+				"ID" => $id
+			)
+		);
+	} else {
+		$APPLICATION->IncludeComponent(
+			"akop:city.list", 
+			"", 
+			array()
+		);
+	}
 ?>
+</div>
 
 
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

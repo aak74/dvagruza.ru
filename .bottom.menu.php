@@ -15,6 +15,20 @@ $aMenuLinks = Array(
 		"" 
 	),
 	Array(		 
+		"Компании", 
+		"/company/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(		 
+		"Города", 
+		"/city/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(		 
 		"Контакты", 
 		"/contacts/", 
 		Array(), 

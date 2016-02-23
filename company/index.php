@@ -5,16 +5,28 @@ $APPLICATION->SetPageProperty("keywords", "грузоперевозки, тра�
 // $APPLICATION->SetPageProperty("title", "Перевози грузы дешевле всех");
 // $APPLICATION->SetTitle("Найди лучшую цену на перевозку сборного груза");
 // CAkop::pr_var($_REQUEST, '$_REQUEST');
+$xmlId = CAkop::getRequest("xml_id", true);
+
+
+
 ?>
 <div class="container">
 	<?
-	$APPLICATION->IncludeComponent(
-		"akop:company.detail", 
-		".default", 
-		array(
-			"XML_ID" => CAkop::getRequest("xml_id", true)
-		)
-	);
+	if ( $xmlId ) {
+		$APPLICATION->IncludeComponent(
+			"akop:company.detail", 
+			"", 
+			array(
+				"XML_ID" => $xmlId
+			)
+		);
+	} else {
+		$APPLICATION->IncludeComponent(
+			"akop:company.list", 
+			"", 
+			array()
+		);
+	}
 	?>
 </div>
 
