@@ -22,6 +22,7 @@
 /bitrix/themes/
 /bitrix/tools/
 /bitrix/updates/
+/bitrix/upload/
 /bitrix/virtual_file_system.php
 /bitrix/web.config
 /bitrix/wizards/
