@@ -4,19 +4,19 @@ $arUrlRewrite = array(
 		"CONDITION" => "#^/company/(.*)/#",
 		"RULE" => "xml_id=$1",
 		"ID" => "",
-		"PATH" => "/company/index.php",
+		"PATH" => "/app/company/index.php",
 	),
 	array(
 		"CONDITION" => "#^/terminal/(.*)/#",
 		"RULE" => "id=$1",
 		"ID" => "",
-		"PATH" => "/terminal/index.php",
+		"PATH" => "/app/terminal/index.php",
 	),
 	array(
 		"CONDITION" => "#^/city/(.*)/#",
 		"RULE" => "id=$1",
 		"ID" => "",
-		"PATH" => "/city/index.php",
+		"PATH" => "/app/city/index.php",
 	),
 );
 

@@ -4,7 +4,7 @@ $APPLICATION->SetPageProperty("description", "Два груза. Перевоз�
 $APPLICATION->SetPageProperty("keywords", "грузоперевозки, транспорт, сборные грузы, низкие цены на перевозку, перевозки дешево");
 // $APPLICATION->SetPageProperty("title", "Перевози грузы дешевле всех");
 $APPLICATION->SetTitle("Найди лучшую цену на перевозку сборного груза");
-$APPLICATION->AddHeadScript("/js/calc.js");
+$APPLICATION->AddHeadScript("/app/js/calc.js");
 
 $def = array(
 	"from" => 632,
