@@ -15,7 +15,7 @@ if (isset($_GET['aa74ko']) && !empty($_GET['aa74ko'])) {
 }
 
 if (!(isset($_SESSION['NO_INIT']) && $_SESSION['NO_INIT'] == 'Y')) {
-    $initName = $_SERVER["DOCUMENT_ROOT"] . "/bitrix/php_interface/functions.php";
+    $initName = $_SERVER["DOCUMENT_ROOT"] . "/local/php_interface/functions.php";
     if (file_exists($initName)) {
         require_once($initName);
     }  

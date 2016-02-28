@@ -5,7 +5,7 @@ $APPLICATION->SetTitle("О сервисе");
 <div class="container">
 	<?
 	$APPLICATION->IncludeFile(
-		"/include/disclaimer.php",
+		"/app/include/disclaimer.php",
 		false
 	);
 	?>

@@ -23,6 +23,11 @@ CModule::AddAutoloadClasses(
     )
 );
 
+spl_autoload_register(function ($class) {
+    include $_SERVER["DOCUMENT_ROOT"] . "/app/classes/" . $class . ".php";
+});
+
+
 AddEventHandler('main', 'OnBuildGlobalMenu', 'CustomMenuElements');
 AddEventHandler("main", "OnEpilog", "setTitle");
 
@@ -45,10 +50,6 @@ function CustomMenuElements(&$aGlobalMenu, &$aModuleMenu){
     "page_icon" => "",
   );
 }
-
-spl_autoload_register(function ($class) {
-    include $_SERVER["DOCUMENT_ROOT"] . "/classes/" . $class . ".php";
-});
 
 
 AddEventHandler("api.feedback", "OnBeforeEmailSend", "OnBeforeEmailSendHandler");
