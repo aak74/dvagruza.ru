@@ -1,33 +1,4 @@
-/bitrix/.settings.php
-/bitrix/admin/
-/bitrix/backup/
-/bitrix/cache/
-/bitrix/components/bitrix/
-/bitrix/coupon_activation.php
-/bitrix/fonts/
-/bitrix/gadgets/
-/bitrix/image_uploader/
-/bitrix/images/
-/bitrix/js/
-/bitrix/managed_cache/
-/bitrix/modules/
-/bitrix/p3p.xml
-/bitrix/panel/
-/bitrix/php_interface/dbconn.php
-/bitrix/*.php
-/bitrix/sounds/
-/bitrix/template/
-/bitrix/templates/bootstrap/
-/bitrix/templates/landing/
-/bitrix/themes/
-/bitrix/tools/
-/bitrix/updates/
-/bitrix/upload/
-/bitrix/virtual_file_system.php
-/bitrix/web.config
-/bitrix/wizards/
-/upload/
-/test/
+/local/php_interface/dbconn.php
 
 
 *.log
